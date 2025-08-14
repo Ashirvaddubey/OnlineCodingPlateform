@@ -1,6 +1,22 @@
 # CodeTest Platform - Full-Stack Coding Assessment System
 
+[![Status: Work in Progress](https://img.shields.io/badge/Status-Work%20in%20Progress-orange)](https://github.com/Ashirvaddubey/OnlineCodingPlateform)
+[![Deployed on Vercel](https://img.shields.io/badge/Deployed%20on-Vercel-black?logo=vercel)](https://coding-platform-nyipqc98r-ashirvaddubeys-projects.vercel.app)
+[![Next.js](https://img.shields.io/badge/Next.js-15.2.4-black?logo=next.js)](https://nextjs.org/)
+[![React](https://img.shields.io/badge/React-19.1.1-blue?logo=react)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9.2-blue?logo=typescript)](https://www.typescriptlang.org/)
+
 A comprehensive web-based coding test platform that supports Java and C++ code execution, auto-grading with visible and hidden test cases, question skipping, themed code editor, and demo accounts for public testing.
+
+## 🌐 Live Demo
+
+**🚀 [Try the Live Application](https://coding-platform-nyipqc98r-ashirvaddubeys-projects.vercel.app)**
+
+**📱 Demo Accounts:**
+- **demo1@example.com** / demo123
+- **demo2@example.com** / demo123  
+- **demo3@example.com** / demo123
+- **demo4@example.com** / demo123
 
 ## 🚀 Features
 
@@ -89,6 +105,34 @@ A comprehensive web-based coding test platform that supports Java and C++ code e
    - Find K Smallest Elements
    - Priority-Based Job Scheduling
 
+## 📊 Project Status
+
+**🟡 Work in Progress** - This project is actively being developed and improved.
+
+### ✅ What's Working
+- ✅ Complete authentication system with JWT
+- ✅ 15 DSA questions with full functionality
+- ✅ Monaco Editor with Java/C++ support
+- ✅ Real-time code execution and testing
+- ✅ Auto-grading system with test cases
+- ✅ Responsive UI with dark/light themes
+- ✅ Progress tracking and analytics
+- ✅ Deployed and accessible on Vercel
+
+### 🚧 In Development
+- 🔄 Integration with Judge0 API for real code execution
+- 🔄 MongoDB database integration
+- 🔄 User management and admin panel
+- 🔄 Advanced analytics and reporting
+- 🔄 Mobile app development
+
+### 📋 Planned Features
+- 📝 Support for more programming languages (Python, JavaScript, Go)
+- 📝 Collaborative coding sessions
+- 📝 Code plagiarism detection
+- 📝 Advanced question types (MCQ, coding challenges)
+- 📝 Integration with learning management systems
+
 ## 🚀 Getting Started
 
 ### Prerequisites
@@ -99,8 +143,8 @@ A comprehensive web-based coding test platform that supports Java and C++ code e
 
 1. **Clone the repository**
    \`\`\`bash
-   git clone <repository-url>
-   cd coding-platform
+   git clone https://github.com/Ashirvaddubey/OnlineCodingPlateform.git
+   cd OnlineCodingPlateform
    \`\`\`
 
 2. **Install dependencies**
@@ -124,11 +168,23 @@ A comprehensive web-based coding test platform that supports Java and C++ code e
    Navigate to `http://localhost:3000`
 
 ### Demo Accounts
-Use these credentials to test the platform:
+Use these credentials to test the platform (same as live demo):
 - **demo1@example.com** / demo123
 - **demo2@example.com** / demo123  
 - **demo3@example.com** / demo123
 - **demo4@example.com** / demo123
+
+## 🚀 Deployment
+
+### Vercel Deployment
+This project is automatically deployed on Vercel:
+
+- **🌐 Live URL**: [https://coding-platform-nyipqc98r-ashirvaddubeys-projects.vercel.app](https://coding-platform-nyipqc98r-ashirvaddubeys-projects.vercel.app)
+- **🔗 GitHub Repository**: [https://github.com/Ashirvaddubey/OnlineCodingPlateform](https://github.com/Ashirvaddubey/OnlineCodingPlateform)
+- **📦 Auto-deploy**: Every push to main branch triggers automatic deployment
+
+### Local Development
+For local development, the app runs on `http://localhost:3000`
 
 ## 🏗 Architecture
 
@@ -242,9 +298,38 @@ DATABASE_URL=mongodb:....
 - **Advanced User Management** with roles and permissions
 - **Email Notifications** for results and updates
 
+## 🤝 Contributing
+
+This is a **Work in Progress** project and contributions are welcome!
+
+### How to Contribute
+1. **Fork** the repository
+2. **Create** a feature branch (`git checkout -b feature/amazing-feature`)
+3. **Commit** your changes (`git commit -m 'Add amazing feature'`)
+4. **Push** to the branch (`git push origin feature/amazing-feature`)
+5. **Open** a Pull Request
+
+### Areas for Contribution
+- 🐛 Bug fixes and improvements
+- ✨ New features and enhancements
+- 📚 Documentation improvements
+- 🎨 UI/UX improvements
+- 🧪 Test coverage
+- 🔧 Performance optimizations
+
 ## 📝 License
 
-This project is ready for production use and deployment to Vercel with full demo account functionality.
+This project is open source and available under the [MIT License](LICENSE).
 
+## 🙏 Acknowledgments
 
-**Ready for deployment to Vercel with full demo account access!**
+- **Next.js Team** for the amazing framework
+- **Vercel** for seamless deployment
+- **Monaco Editor** for the powerful code editing experience
+- **shadcn/ui** for the beautiful component library
+
+---
+
+**🚀 [Try the Live Application](https://coding-platform-nyipqc98r-ashirvaddubeys-projects.vercel.app) | 📖 [View Source Code](https://github.com/Ashirvaddubey/OnlineCodingPlateform)**
+
+**Status: Work in Progress** - Actively developing and improving! 🟡
