@@ -8,14 +8,17 @@ import { Badge } from "@/components/ui/badge"
 import { WrapText, RotateCcw, Clipboard, Trash2 } from "lucide-react"
 
 // Dynamically import Monaco Editor to avoid SSR issues
-const MonacoEditor = dynamic(() => import("./monaco-editor-wrapper"), {
-  ssr: false,
-  loading: () => (
-    <div className="w-full h-96 bg-muted animate-pulse rounded-md flex items-center justify-center">
-      <div className="text-muted-foreground">Loading code editor...</div>
-    </div>
-  ),
-})
+const MonacoEditor = dynamic(
+  () => import("./monaco-editor-wrapper").then(mod => ({ default: mod.default })),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full h-96 bg-muted animate-pulse rounded-md flex items-center justify-center">
+        <div className="text-muted-foreground">Loading code editor...</div>
+      </div>
+    ),
+  }
+)
 
 interface CodeEditorProps {
   value: string
@@ -29,6 +32,12 @@ interface CodeEditorProps {
 export function CodeEditor({ value, onChange, language, theme, onRunCode, onSave }: CodeEditorProps) {
   const [fontSize, setFontSize] = useState(14)
   const [wordWrap, setWordWrap] = useState<"on" | "off">("on")
+  const [isClient, setIsClient] = useState(false)
+
+  // Ensure we're on the client side
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
 
   const getDefaultTemplate = useCallback((lang: "java" | "cpp") => {
     if (lang === "java") {
@@ -88,6 +97,20 @@ int main() {
   const decreaseFontSize = useCallback(() => {
     setFontSize(prev => Math.max(prev - 2, 10))
   }, [])
+
+  // Don't render the editor until we're on the client
+  if (!isClient) {
+    return (
+      <div className="w-full space-y-4">
+        <div className="flex flex-wrap items-center gap-2 p-3 bg-muted/50 rounded-lg">
+          <div className="text-muted-foreground">Loading editor controls...</div>
+        </div>
+        <div className="w-full h-96 bg-muted animate-pulse rounded-md flex items-center justify-center">
+          <div className="text-muted-foreground">Loading code editor...</div>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="w-full space-y-4">
@@ -185,7 +208,7 @@ int main() {
         )}
       </div>
 
-      {/* Monaco Editor */}
+      {/* Monaco Editor - Only render on client */}
       <MonacoEditor
         value={value}
         onChange={onChange}

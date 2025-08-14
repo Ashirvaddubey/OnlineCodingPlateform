@@ -1,7 +1,6 @@
 "use client"
 
-import { useEffect, useRef, useCallback } from "react"
-import * as monaco from "monaco-editor"
+import { useEffect, useRef } from "react"
 
 interface MonacoEditorWrapperProps {
   value: string
@@ -21,139 +20,142 @@ export default function MonacoEditorWrapper({
   wordWrap,
 }: MonacoEditorWrapperProps) {
   const editorRef = useRef<HTMLDivElement>(null)
-  const monacoRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null)
+  const monacoRef = useRef<any>(null)
   const isDisposingRef = useRef(false)
   const lastValueRef = useRef(value)
-
-  // Define custom themes
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      monaco.editor.defineTheme("custom-dark", {
-        base: "vs-dark",
-        inherit: true,
-        rules: [
-          { token: "comment", foreground: "6A9955", fontStyle: "italic" },
-          { token: "keyword", foreground: "569CD6", fontStyle: "bold" },
-          { token: "string", foreground: "CE9178" },
-          { token: "number", foreground: "B5CEA8" },
-        ],
-        colors: {
-          "editor.background": "#1e1e1e",
-          "editor.foreground": "#d4d4d4",
-          "editorCursor.foreground": "#aeafad",
-        },
-      })
-
-      monaco.editor.defineTheme("custom-light", {
-        base: "vs",
-        inherit: true,
-        rules: [
-          { token: "comment", foreground: "008000", fontStyle: "italic" },
-          { token: "keyword", foreground: "0000ff", fontStyle: "bold" },
-          { token: "string", foreground: "a31515" },
-          { token: "number", foreground: "098658" },
-        ],
-        colors: {
-          "editor.background": "#ffffff",
-          "editor.foreground": "#000000",
-          "editorCursor.foreground": "#000000",
-        },
-      })
-    }
-  }, [])
 
   // Initialize Monaco Editor
   useEffect(() => {
     if (editorRef.current && !monacoRef.current && typeof window !== "undefined") {
-      try {
-        monacoRef.current = monaco.editor.create(editorRef.current, {
-          value,
-          language: language === "cpp" ? "cpp" : "java",
-          theme: theme === "dark" ? "custom-dark" : "custom-light",
-          fontSize,
-          fontFamily: "'JetBrains Mono', 'Fira Code', 'SF Mono', 'Consolas', 'Monaco', monospace",
-          lineNumbers: "on",
-          roundedSelection: false,
-          scrollBeyondLastLine: false,
-          automaticLayout: true,
-          minimap: { enabled: false },
-          wordWrap,
-          tabSize: 4,
-          insertSpaces: true,
-          detectIndentation: false,
-          contextmenu: true,
-          selectOnLineNumbers: true,
-          mouseWheelZoom: false,
-          cursorBlinking: "blink",
-          cursorWidth: 2,
-          smoothScrolling: true,
-          readOnly: false,
-          domReadOnly: false,
-          quickSuggestions: true,
-          acceptSuggestionOnEnter: "on",
-          autoIndent: "full",
-          formatOnPaste: true,
-          formatOnType: true,
-          dragAndDrop: true,
-          scrollbar: {
-            vertical: "visible",
-            horizontal: "visible",
-            verticalScrollbarSize: 14,
-            horizontalScrollbarSize: 14,
-          },
-        })
+      // Dynamically import Monaco Editor only on client side
+      import("monaco-editor").then((monaco) => {
+        try {
+          // Define custom themes
+          monaco.editor.defineTheme("custom-dark", {
+            base: "vs-dark",
+            inherit: true,
+            rules: [
+              { token: "comment", foreground: "6A9955", fontStyle: "italic" },
+              { token: "keyword", foreground: "569CD6", fontStyle: "bold" },
+              { token: "string", foreground: "CE9178" },
+              { token: "number", foreground: "B5CEA8" },
+            ],
+            colors: {
+              "editor.background": "#1e1e1e",
+              "editor.foreground": "#d4d4d4",
+              "editorCursor.foreground": "#aeafad",
+            },
+          })
 
-        // Handle content changes
-        monacoRef.current.onDidChangeModelContent(() => {
-          if (monacoRef.current && !isDisposingRef.current) {
-            const newValue = monacoRef.current.getValue()
-            if (lastValueRef.current !== newValue) {
-              lastValueRef.current = newValue
-              onChange(newValue)
-            }
-          }
-        })
+          monaco.editor.defineTheme("custom-light", {
+            base: "vs",
+            inherit: true,
+            rules: [
+              { token: "comment", foreground: "008000", fontStyle: "italic" },
+              { token: "keyword", foreground: "0000ff", fontStyle: "bold" },
+              { token: "string", foreground: "a31515" },
+              { token: "number", foreground: "098658" },
+            ],
+            colors: {
+              "editor.background": "#ffffff",
+              "editor.foreground": "#000000",
+              "editorCursor.foreground": "#000000",
+            },
+          })
 
-        // Handle resize
-        const handleResize = () => {
-          if (monacoRef.current && !isDisposingRef.current) {
-            try {
-              monacoRef.current.layout()
-            } catch (error) {
-              // Ignore layout errors
-            }
-          }
-        }
+          if (editorRef.current) {
+            monacoRef.current = monaco.editor.create(editorRef.current, {
+              value,
+              language: language === "cpp" ? "cpp" : "java",
+              theme: theme === "dark" ? "custom-dark" : "custom-light",
+              fontSize,
+              fontFamily: "'JetBrains Mono', 'Fira Code', 'SF Mono', 'Consolas', 'Monaco', monospace",
+              lineNumbers: "on",
+              roundedSelection: false,
+              scrollBeyondLastLine: false,
+              automaticLayout: true,
+              minimap: { enabled: false },
+              wordWrap,
+              tabSize: 4,
+              insertSpaces: true,
+              detectIndentation: false,
+              contextmenu: true,
+              selectOnLineNumbers: true,
+              mouseWheelZoom: false,
+              cursorBlinking: "blink",
+              cursorWidth: 2,
+              smoothScrolling: true,
+              readOnly: false,
+              domReadOnly: false,
+              quickSuggestions: true,
+              acceptSuggestionOnEnter: "on",
+              autoIndent: "full",
+              formatOnPaste: true,
+              formatOnType: true,
+              dragAndDrop: true,
+              scrollbar: {
+                vertical: "visible",
+                horizontal: "visible",
+                verticalScrollbarSize: 14,
+                horizontalScrollbarSize: 14,
+              },
+            })
 
-        window.addEventListener("resize", handleResize)
+            // Handle content changes
+            monacoRef.current.onDidChangeModelContent(() => {
+              if (monacoRef.current && !isDisposingRef.current) {
+                const newValue = monacoRef.current.getValue()
+                if (lastValueRef.current !== newValue) {
+                  lastValueRef.current = newValue
+                  onChange(newValue)
+                }
+              }
+            })
 
-        // Focus and position cursor
-        setTimeout(() => {
-          if (monacoRef.current && !isDisposingRef.current) {
-            monacoRef.current.layout()
-            monacoRef.current.focus()
-            
-            // Position cursor at "// Your code here" if it exists
-            const model = monacoRef.current.getModel()
-            if (model) {
-              const content = model.getValue()
-              const codeHereIndex = content.indexOf("// Your code here")
-              if (codeHereIndex !== -1) {
-                const lines = content.substring(0, codeHereIndex).split("\n")
-                const lineNumber = lines.length
-                const position = { lineNumber: lineNumber + 1, column: 9 }
-                monacoRef.current.setPosition(position)
+            // Handle resize
+            const handleResize = () => {
+              if (monacoRef.current && !isDisposingRef.current) {
+                try {
+                  monacoRef.current.layout()
+                } catch (error) {
+                  // Ignore layout errors
+                }
               }
             }
-          }
-        }, 100)
 
-        return () => {
-          window.removeEventListener("resize", handleResize)
+            window.addEventListener("resize", handleResize)
+
+            // Focus and position cursor
+            setTimeout(() => {
+              if (monacoRef.current && !isDisposingRef.current) {
+                monacoRef.current.layout()
+                monacoRef.current.focus()
+                
+                // Position cursor at "// Your code here" if it exists
+                const model = monacoRef.current.getModel()
+                if (model) {
+                  const content = model.getValue()
+                  const codeHereIndex = content.indexOf("// Your code here")
+                  if (codeHereIndex !== -1) {
+                    const lines = content.substring(0, codeHereIndex).split("\n")
+                    const lineNumber = lines.length
+                    const position = { lineNumber: lineNumber + 1, column: 9 }
+                    monacoRef.current.setPosition(position)
+                  }
+                }
+              }
+            }, 100)
+
+            return () => {
+              window.removeEventListener("resize", handleResize)
+            }
+          }
+        } catch (error) {
+          console.error("Failed to create Monaco Editor:", error)
         }
-      } catch (error) {
-        console.error("Failed to create Monaco Editor:", error)
-      }
+      }).catch((error) => {
+        console.error("Failed to load Monaco Editor:", error)
+      })
     }
 
     return () => {
@@ -199,7 +201,9 @@ export default function MonacoEditorWrapper({
       const model = monacoRef.current.getModel()
       if (model) {
         try {
-          monaco.editor.setModelLanguage(model, language === "cpp" ? "cpp" : "java")
+          import("monaco-editor").then((monaco) => {
+            monaco.editor.setModelLanguage(model, language === "cpp" ? "cpp" : "java")
+          })
         } catch (error) {
           console.warn("Could not update language:", error)
         }
@@ -211,7 +215,9 @@ export default function MonacoEditorWrapper({
   useEffect(() => {
     if (monacoRef.current && !isDisposingRef.current) {
       try {
-        monaco.editor.setTheme(theme === "dark" ? "custom-dark" : "custom-light")
+        import("monaco-editor").then((monaco) => {
+          monaco.editor.setTheme(theme === "dark" ? "custom-dark" : "custom-light")
+        })
       } catch (error) {
         console.warn("Could not update theme:", error)
       }
